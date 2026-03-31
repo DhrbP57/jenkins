@@ -1,5 +1,5 @@
 pipeline {
-    agent { label 'Mikrus-Frog' }
+    agent any
 
     stages {
         stage('Detekcja Zmian') {
@@ -8,10 +8,9 @@ pipeline {
                 
                 sh '''
                     echo "--- ALERT: Wykryto zmiany w repozytorium! ---"
-                    echo "Data wykrycia: $(date)"
+                    echo "Akcja wykonana na głównym agencie Jenkinsa."
+                    echo "Data: $(date)"
                     echo "Ostatni commit: $(git log -1 --pretty=format:'%h - %s')"
-                    
-                    echo "Jenkins widział zmianę o $(date)" >> /home/frog/powiadomienia_jenkins.log
                 '''
             }
         }
@@ -19,7 +18,7 @@ pipeline {
     
     post {
         success {
-            echo 'Sukces! Jenkins odebrał sygnał i wykonał zadanie.'
+            echo 'Sukces! Główny agent odebrał sygnał i wykonał zadanie.'
         }
     }
 }
